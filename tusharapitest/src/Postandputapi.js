@@ -2,6 +2,17 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import {Box,Typography,Button,TextField} from '@material-ui/core'
 export default function Post(){
+  function Validate(body) {
+    if (
+      /\b[a-z]|\w[A-Z]/ .test(
+        body
+      )
+    ) {
+      return true;
+    }
+    
+    return false;
+  }
 const [body,setBody]=useState('')
 const [title,setTitle]=useState('')
 const [Id,setId]=useState(1)
@@ -51,12 +62,19 @@ return(<div>
       <Typography variant="h6" color="textPrimary" component="h2" gutterBottom>
        <strong>Body</strong>
       </Typography>
-      <TextField label="Enter body text" color="primary " variant="outlined" gutterBottom value={body}  onChange={(e) => setBody(e.target.value)}/>
+      <TextField label="Enter body text" color="primary " variant="outlined" name="body" gutterBottom value={body}  onChange={(e) => setBody(e.target.value)}/>  
+      {!Validate(body) && (
+            <p style={{ color: 'red' }}>Please enter Body</p>
+          )
+      }
      <Typography variant="h6" color="textPrimary" component="h2"gutterBottom>
        <strong>Title</strong>
       </Typography>
-      <TextField label="Enter title text"  color="primary " variant="outlined" gutterBottom value={title}  onChange={(e) => setTitle(e.target.value)} />
-     
+      <TextField label="Enter title text"  color="primary " variant="outlined" name="title" gutterBottom value={title}  onChange={(e) => setTitle(e.target.value)} />
+      {!Validate(title) && (
+            <p style={{ color: 'red' }}>Please enter title</p>
+          )
+      }
       <br /> <br /> 
           <Button  variant="contained" color="Primary" onClick={postsubmit} gutterBottom>POST DATA</Button>
          &nbsp; <Button variant="contained" color="Primary" onClick={putsubmit}  gutterBottom>PUT DATA</Button>
